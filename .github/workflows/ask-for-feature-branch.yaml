@@ -1,0 +1,23 @@
+name: Ask for Feature Branch on PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  ask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post comment asking for confirmation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comment = `Do you want to create a feature branch in the hotwax-oms-docker-config repo? Reply with 'yes' to proceed.`;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body: comment
+            });
