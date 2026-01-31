@@ -1,0 +1,16 @@
+FROM some.random.aws.address
+
+RUN update-java-alternatives -s java-1.17.0-openjdk-amd64
+
+ARG GIT_USERNAME=
+ARG GIT_PASSWORD=
+ARG Jobs_Min_Threads=50
+ARG DB_Max_Threads=500
+ARG SRV_JOBS=30
+
+RUN echo "machine github.com" > /root/.netrc && \
+    echo "login $GIT_USERNAME" >> /root/.netrc && \
+    echo "password $GIT_PASSWORD" >> /root/.netrc
+
+WORKDIR /oms
+RUN git clone --depth 1 -b "main" https://github.com/G0V1NDK/GIT-PART-1.git /git_actions
